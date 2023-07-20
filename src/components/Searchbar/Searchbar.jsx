@@ -14,7 +14,6 @@ export function Searchbar({ onSearch }) {
       toast.warning('Please, enter your search query.');
       return;
     }
-
     onSearch(normQuery);
     setValue('');
   };
@@ -32,7 +31,8 @@ export function Searchbar({ onSearch }) {
           autoComplete="off"
           autoFocus
           placeholder="Search images and photos"
-          // value={value}
+          value={value}
+          onChange={e => setValue(e.target.value)}
         />
       </form>
     </header>
