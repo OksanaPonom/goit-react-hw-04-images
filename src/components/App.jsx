@@ -21,51 +21,48 @@ export function App() {
     async function searchImageHandler() {
       try {
         setIsLoading(true);
-        const response = await searchImages(value, page);
-        return response.data;
-      } catch (error) {
-        toast.error(error.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    async function getImages() {
-      const resp = await searchImageHandler();
+        const resp = await searchImages(value, page);
 
-      const data = resp.hits.map(
-        ({ id, webformatURL, largeImageURL, tags }) => {
+        const { totalHits, hits } = resp;
+        const data = hits.map(({ id, webformatURL, largeImageURL, tags }) => {
           return {
             id,
             webformatURL,
             largeImageURL,
             tags,
           };
+        });
+
+        const totalPages = Math.ceil(totalHits / 12);
+        if (!hits.length) {
+          toast.warning(
+            'Sorry, but nothing was foundfor your request. Try again, please'
+          );
+          return;
         }
-      );
-      const totalHits = resp.totalHits;
-      const totalPages = Math.ceil(totalHits / 12);
-      if (!resp.hits.length) {
-        toast.warning(
-          'Sorry, but nothing was foundfor your request. Try again, please'
-        );
+        if (page === 1) {
+          toast.success(
+            `Congrtulations, ${totalHits} image(s) have been found`
+          );
+        }
+        if (page === totalPages) {
+          toast.info('All image(s) for this request are already available');
+        }
+        setImages(images => [...images, ...data]);
+        setShowButton(page < totalPages || page === 0);
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setIsLoading(false);
       }
-      if (page === 1 && resp.hits.length) {
-        toast.success(`Congrtulations, ${totalHits} image(s) have been found`);
-      }
-      if (page === totalPages) {
-        toast.info('All image(s) for this request are already available');
-      }
-      setImages(images => [...images, ...data]);
-      setShowButton(page < totalPages);
     }
-    getImages();
+    searchImageHandler();
   }, [page, value]);
 
   const handlerSearch = value => {
     setValue(value);
     setPage(1);
     setImages([]);
-    // this.setState({ value, page: 1, images: [] });
   };
 
   return (

@@ -3,15 +3,14 @@ import css from './Modal.module.css';
 import { useEffect } from 'react';
 
 export function Modal({ onClose, src, alt }) {
-  const onKeydownEsc = e => {
-    if (e.code === 'Escape') {
-      onClose();
-    }
-  };
-
   useEffect(() => {
+    const onKeydownEsc = e => {
+      if (e.code === 'Escape') {
+        onClose();
+      }
+    };
     window.addEventListener('keydown', onKeydownEsc);
-    return window.removeEventListener('keydown', onKeydownEsc);
+    return () => window.removeEventListener('keydown', onKeydownEsc);
   });
 
   const onCloseByBackdrop = e => {
@@ -21,7 +20,7 @@ export function Modal({ onClose, src, alt }) {
   };
 
   return (
-    <div onClick={onCloseByBackdrop()} className={css.Overlay}>
+    <div onClick={onCloseByBackdrop} className={css.Overlay}>
       <div className={css.Modal}>
         <button
           className={css.ButtonClose}
