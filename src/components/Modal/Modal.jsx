@@ -21,7 +21,7 @@ export function Modal({ onClose, src, alt }) {
   };
 
   return (
-    <div onClick={onCloseByBackdrop()} className={css.Overlay}>
+    <div onClick={onCloseByBackdrop} className={css.Overlay}>
       <div className={css.Modal}>
         <button
           className={css.ButtonClose}
