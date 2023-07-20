@@ -32,7 +32,7 @@ export function Searchbar({ onSearch }) {
           autoComplete="off"
           autoFocus
           placeholder="Search images and photos"
-          value={value}
+          // value={value}
         />
       </form>
     </header>
