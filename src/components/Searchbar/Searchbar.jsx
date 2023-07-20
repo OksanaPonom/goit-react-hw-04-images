@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import css from './Searchbar.module.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 export function Searchbar({ onSearch }) {
   const [value, setValue] = useState('');
@@ -10,7 +11,7 @@ export function Searchbar({ onSearch }) {
     const normQuery = e.target.query.value.toLowerCase().trim();
 
     if (!normQuery) {
-      alert('Please, enter your search query.');
+      toast.warning('Please, enter your search query.');
       return;
     }
 
@@ -34,6 +35,7 @@ export function Searchbar({ onSearch }) {
           value={value}
         />
       </form>
+      <ToastContainer theme="dark " autoClose={3000} position="top-center" />
     </header>
   );
 }
