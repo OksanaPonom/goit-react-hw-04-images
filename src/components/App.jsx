@@ -14,6 +14,7 @@ export function App() {
   const [images, setImages] = useState([]);
   const [showButton, setShowButton] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+    const [totalHits, setTotalHits] = useState(0);
 
   useEffect(() => {
     if (!value) return;
@@ -40,6 +41,7 @@ export function App() {
           );
           return;
         }
+        setTotalHits(totalHits);
         if (page === 1) {
           toast.success(
             `Congrtulations, ${totalHits} image(s) have been found`
@@ -50,7 +52,8 @@ export function App() {
         }
         // setImages(images => [...images, ...data]);
           setImages(prevImages => [...prevImages, ...data]);
-        setShowButton(page < totalPages || page === 0);
+        setShowButton(images.length < totalHits)
+        // setShowButton(page < totalPages || page === 0);
       } catch (error) {
         toast.error(error.message);
       } finally {
@@ -65,6 +68,7 @@ export function App() {
     setValue(value);
     setPage(1);
     setImages([]);
+       setTotalHits(0);
      }
     };
 
