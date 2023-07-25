@@ -63,6 +63,7 @@ export function App() {
     setValue(value);
     setPage(1);
     setImages([]);
+    setValue('');
   };
 
   return (
