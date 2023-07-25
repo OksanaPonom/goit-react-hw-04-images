@@ -48,7 +48,8 @@ export function App() {
         if (page === totalPages) {
           toast.info('All image(s) for this request are already available');
         }
-        setImages(images => [...images, ...data]);
+        // setImages(images => [...images, ...data]);
+          setImages(prevImages => [...prevImages, ...data]);
         setShowButton(page < totalPages || page === 0);
       } catch (error) {
         toast.error(error.message);
@@ -57,12 +58,14 @@ export function App() {
       }
     }
     searchImageHandler();
-  }, [page, value]);
+  }, [page, value,images]);
 
   const handlerSearch = value => {
+     if (value !== ""){
     setValue(value);
     setPage(1);
     setImages([]);
+     }
     };
 
   return (
