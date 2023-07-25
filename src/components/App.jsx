@@ -14,7 +14,6 @@ export function App() {
   const [images, setImages] = useState([]);
   const [showButton, setShowButton] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-    const [totalHits, setTotalHits] = useState(0);
 
   useEffect(() => {
     if (!value) return;
@@ -37,23 +36,22 @@ export function App() {
         const totalPages = Math.ceil(totalHits / 12);
         if (!hits.length) {
           toast.warning(
-            'Sorry, but nothing was foundfor your request. Try again, please'
+            'Sorry, but nothing was found for your request. Try again, please'
           );
           return;
         }
-        setTotalHits(totalHits);
+        
         if (page === 1) {
           toast.success(
-            `Congrtulations, ${totalHits} image(s) have been found`
+            `Congratulations, ${totalHits} image(s) have been found`
           );
         }
         if (page === totalPages) {
           toast.info('All image(s) for this request are already available');
         }
-        // setImages(images => [...images, ...data]);
-          setImages(prevImages => [...prevImages, ...data]);
-        setShowButton(images.length < totalHits)
-        // setShowButton(page < totalPages || page === 0);
+        
+        setImages(prevImages => [...prevImages, ...data]);
+        setShowButton(images.length < totalHits);
       } catch (error) {
         toast.error(error.message);
       } finally {
@@ -61,16 +59,15 @@ export function App() {
       }
     }
     searchImageHandler();
-  }, [page, value,images]);
+  }, [page, value, images]);
 
   const handlerSearch = value => {
-     if (value !== ""){
-    setValue(value);
-    setPage(1);
-    setImages([]);
-       setTotalHits(0);
-     }
-    };
+    if (value !== "") {
+      setValue(value);
+      setPage(1);
+      setImages([]);
+    }
+  };
 
   return (
     <div className={css.App}>
