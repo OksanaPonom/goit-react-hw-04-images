@@ -59,10 +59,12 @@ export function App() {
     searchImageHandler();
   }, [page, value]);
 
-  const handlerSearch = value => {
-    setValue(value);
-    setPage(1);
-    setImages([]);
+  const handlerSearch = newValue => {
+    if (newValue.trim() !== value.trim()) {
+      setValue(newValue);
+      setPage(1);
+      setImages([]);
+    }
   };
 
   return (
